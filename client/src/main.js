@@ -1,6 +1,5 @@
 import '@/firebase.js';
 import { createApp } from 'vue';
-// import VueSSE from 'vue-sse';
 
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
@@ -9,6 +8,8 @@ import Toast from 'primevue/toast';
 import Menubar from 'primevue/menubar';
 import Card from 'primevue/card';
 import Panel from 'primevue/panel';
+import Dropdown from 'primevue/dropdown';
+import Fieldset from 'primevue/fieldset';
 
 // import ToastService from 'primevue/toastservice';
 import 'primeflex/primeflex.css';
@@ -30,5 +31,7 @@ app.component('Toast', Toast);
 app.component('Menubar', Menubar);
 app.component('Card', Card);
 app.component('Panel', Panel);
+app.component('Dropdown', Dropdown);
+app.component('Fieldset', Fieldset);
 
 app.mount('#app');

@@ -5,7 +5,7 @@ import 'firebase/database';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
-import { firebaseConfig } from './config.js';
+import { firebaseConfig } from '../config.js';
 
 const App = firebase.initializeApp(firebaseConfig);
 const Auth = App.auth();

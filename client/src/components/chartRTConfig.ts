@@ -4,7 +4,7 @@ export default {
     height: 450,
     type: 'area',
     animations: {
-      enabled: false,
+      enabled: true,
       easing: 'linear',
       initialAnimation: {
         enabled: true,
@@ -21,7 +21,7 @@ export default {
     },
   },
   dataLabels: {
-    enabled: true,
+    enabled: true
   },
   stroke: {
     curve: 'smooth',
@@ -29,6 +29,11 @@ export default {
   title: {
     text: 'Título no definido',
     align: 'left',
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM HH:mm'
+    }
   },
   markers: {
     size: 0,

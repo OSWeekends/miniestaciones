@@ -10,7 +10,7 @@
   "dependencies": {
     "apexcharts": "^3.22.2",
     "core-js": "^3.8.0",
-    "element-plus": "^1.0.1-alpha.23",
+    "element-plus": "^1.0.1-beta.1",
     "firebase": "^8.1.1",
     "firebaseui": "^4.7.1",
     "primeflex": "^2.0.0",
@@ -18,8 +18,7 @@
     "primevue": "^3.0.2",
     "vue": "^3.0.3",
     "vue-material": "^1.0.0-beta-15",
-    "vue-router": "^4.0.0-rc.5",
-    "vue-sse": "^1.0.2",
+    "vue-router": "^4.0.0-rc.6",
     "vue3-apexcharts": "^1.1.1"
   },
   "devDependencies": {

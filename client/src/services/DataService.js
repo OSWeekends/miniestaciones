@@ -1,28 +1,37 @@
 import { DB } from '@/firebase';
 
-const DBName = 'hermes001'
-
-const db = DB.ref(DBName);
+const DBNames = ['hermes001'];
 
 class DataService {
-  getAll() {
-    return db;
+  db = null;
+  currentID;
+
+  getDevices() {
+    return DBNames;
+  }
+  setDevice(id) {
+    this.currentID = id;
+    this.db = DB.ref(id);
+  }
+
+  getAll(prop = 'timestamp', limit = 1) {
+    return this.db.orderByChild(prop).limitToLast(limit);
   }
 
   create(tutorial) {
-    return db.push(tutorial);
+    return this.db.push(tutorial);
   }
 
   update(key, value) {
-    return db.child(key).update(value);
+    return this.db.child(key).update(value);
   }
 
   delete(key) {
-    return db.child(key).remove();
+    return this.db.child(key).remove();
   }
 
   deleteAll() {
-    return db.remove();
+    return this.db.remove();
   }
 }
 
