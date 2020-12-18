@@ -6,7 +6,7 @@
         @change="selectDBNameHandler"
         :options="DBNames"
         placeholder="Seleciona un dispositivo"
-        class="p-col-1 p-m-2"
+        class="p-col-3 p-m-2"
       />
       <Fieldset :legend="selectedDBName" v-if="selectedDBName" class="p-col-12">
         <div class="p-grid">
@@ -69,17 +69,15 @@ export default {
         'value',
         snapshot => {
           const data = snapshot.val();
-          console.log('newData', data);
           const mapValues = this.assignValues(data, ['temp', 'hum']);
           const temp = mapValues.get('temp');
           const hum = mapValues.get('hum');
           let newArrTmp = this.slidingData(this.dataTemp);
           let newArrHum = this.slidingData(this.dataHum);
-          // Format: [[date1, value1], [date2, value2], ...]
+
+          // Data format: [{ x: formatDate, y: element.temp }, {...}, ...]
           this.dataTemp = [...newArrTmp, ...temp];
           this.dataHum = [...newArrHum, ...hum];
-          console.log('newDataTemp', this.dataTemp);
-          console.log('newDataHum', this.dataHum);
         },
         errorObject => {
           console.log('The read failed: ' + errorObject.code);
@@ -96,15 +94,12 @@ export default {
         propertiesMap.set(p, []);
       });
       Object.values(data).forEach(element => {
-        // Format: [[date1, value1], [date2, value2], ...]
+        // Data format: [{ x: formatDate, y: element.temp }, {...}, ...]
         const date = new Date(element.timestamp * 1000);
         properties.forEach(p => {
           const currentList = propertiesMap.get(p);
-          propertiesMap.set(p, [...currentList, [date, element[p]]]);
+          propertiesMap.set(p, [...currentList, { x: date, y: element[p]}]);
         });
-        // Other format handled by chart
-        // const formatDate = date.toLocaleString('es', { timeZone: 'UTC' })
-        // data1.push({ x: formatDate, y: element.temp });
       });
       return propertiesMap;
     },

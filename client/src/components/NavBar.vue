@@ -9,35 +9,42 @@
 </template>
 
 <script>
-import { Auth } from '@/firebase';
+import AuthService from '@/services/AuthService';
 export default {
   data() {
     return {
-      user: null,
+      user: {
+        uid: '',
+        email: '',
+        displayName: '',
+        photoURL: '',
+        providerData: [{ providerId: '' }]
+      },
       items: [
         { label: 'Profile', icon: 'pi pi-fw pi-user', to: '/profile' },
-        { label: 'Login', icon: 'pi pi-fw pi-unlock', to: '/login' },
+        // { label: 'Login', icon: 'pi pi-fw pi-unlock', to: '/login' },
+        { label: 'About', icon: 'pi pi-fw pi-book', to: '/about' },
         {
           label: 'Logout',
           icon: 'pi pi-fw pi-power-off',
-          command: () => this.logOut(),
-        },
-        { label: 'About', icon: 'pi pi-fw pi-book', to: '/about' },
-      ],
+          command: () => this.logOut()
+        }
+      ]
     };
   },
   created() {
-    Auth.onAuthStateChanged(user => {
-      this.user = user;
-    });
+    this.user = AuthService.currentUser;
   },
   methods: {
-    logOut(e) {
-      e.stopPropagation();
-      Auth.signOut().then(() => {
-        this.$router.push({ name: 'Login' });
-      });
-    },
-  },
+    logOut() {
+      AuthService.logOut()
+        .then(() => {
+          this.$router.push({ name: 'Login' });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>

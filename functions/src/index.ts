@@ -20,20 +20,7 @@ exports.getSensor = functions.https.onRequest(async (req, res) => {
 
   flowData.on('value', (snapshot) => {
     data = snapshot.val();
-    console.log(data);
   });
   // Send back a message that we've succesfully written the message
   res.json({data});
 });
-
-// exports.setTimestampValue = functions.database
-//   .ref('{deviceID}/{dataType}/{messageId}')
-//   .onCreate((snapshot: any, context) => {
-//     if (!snapshot && !snapshot.ref) return;
-//     // Grab the current value of what was written to the Realtime Database.
-//     const original = snapshot.val();
-//     console.log("Data", context.params, original);
-//     // You must return a Promise when performing asynchronous tasks inside a Functions such as
-//     // writing to the Firebase Realtime Database.
-//     return snapshot.ref.parent.child('uppercase').set(original);
-//   });

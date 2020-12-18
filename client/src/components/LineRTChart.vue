@@ -30,7 +30,6 @@ export default {
   },
   watch: {
     values: function() {
-      console.log('updated data');
       this.updateSeriesLine();
     },
   },

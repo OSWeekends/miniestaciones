@@ -1,4 +1,4 @@
-import '@/firebase.js';
+import '@/services/FirebaseService';
 import { createApp } from 'vue';
 
 import Dialog from 'primevue/dialog';

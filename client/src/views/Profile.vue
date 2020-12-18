@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { Auth } from '@/firebase';
+import AuthService from '@/services/AuthService';
 export default {
   data() {
     return {
@@ -40,12 +40,9 @@ export default {
     };
   },
   created() {
-    Auth.onAuthStateChanged(user => {
-      if (user) {
-        this.user = user;
-        console.log(user);
-      }
-    });
+    if (AuthService.currentUser) {
+      this.user = AuthService.currentUser;
+    }
   },
 };
 </script>

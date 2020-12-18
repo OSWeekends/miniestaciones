@@ -13,6 +13,7 @@
 #include "secrets.h"
 
 const String SENSOR_ID = "hermes001";
+const long INTERVAL = 60000; // miliseconds
 
 WiFiUDP ntpUDP;   // UDP client
 NTPClient timeClient(ntpUDP); // NTP client
@@ -52,7 +53,6 @@ struct readings {
 DHT dht(DHTPIN, DHTTYPE);
 
 unsigned long previousMillis = 0;
-const long INTERVAL = 60000;
 // will store last time data was sent to Firebase
 long unsigned int timestamp = 0;
 

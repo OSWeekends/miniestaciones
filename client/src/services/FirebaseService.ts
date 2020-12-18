@@ -5,7 +5,7 @@ import 'firebase/database';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
-import { firebaseConfig } from '../config.js';
+import { firebaseConfig } from '../config';
 
 const App = firebase.initializeApp(firebaseConfig);
 const Auth = App.auth();
@@ -19,6 +19,14 @@ const uiConfig = {
     // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
   ],
+  callbacks: {
+    signInSuccessWithAuthResult: function(authResult: any) {
+      // User successfully signed in.
+      // Return type determines whether we continue the redirect automatically
+      // or whether we leave that to developer to handle.
+      return true;
+    }
+  },
 };
 
 let UI = firebaseui.auth.AuthUI.getInstance();
