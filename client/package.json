@@ -10,8 +10,8 @@
   "dependencies": {
     "apexcharts": "^3.23.0",
     "core-js": "^3.8.1",
-    "element-plus": "^1.0.1-beta.8",
-    "firebase": "^8.2.0",
+    "element-plus": "^1.0.1-beta.10",
+    "firebase": "^8.2.1",
     "firebaseui": "^4.7.1",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
@@ -35,7 +35,7 @@
     "babel-eslint": "^10.1.0",
     "css-loader": "^5.0.1",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.2.0",
+    "eslint-plugin-vue": "^7.3.0",
     "typescript": "~3.9.3"
   },
   "eslintConfig": {
