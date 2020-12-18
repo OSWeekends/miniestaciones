@@ -16,7 +16,6 @@
         <Button label="Login" @click="login()" />
       </div>
     </template>
-    <!-- <section id="firebaseui-auth-container"></section> -->
   </Card>
 </template>
 

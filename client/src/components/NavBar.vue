@@ -10,6 +10,8 @@
 
 <script>
 import AuthService from '@/services/AuthService';
+import router from '../router';
+
 export default {
   data() {
     return {
@@ -27,7 +29,7 @@ export default {
         {
           label: 'Logout',
           icon: 'pi pi-fw pi-power-off',
-          command: () => this.logOut()
+          command: () => this.logout()
         }
       ]
     };
@@ -36,10 +38,12 @@ export default {
     this.user = AuthService.currentUser;
   },
   methods: {
-    logOut() {
-      AuthService.logOut()
+    logout() {
+      AuthService.logout()
         .then(() => {
-          this.$router.push({ name: 'Login' });
+          setTimeout(() => {
+            router.push('/login');
+          }, 0);
         })
         .catch(err => {
           console.log(err);

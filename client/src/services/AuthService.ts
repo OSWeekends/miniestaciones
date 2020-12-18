@@ -31,6 +31,7 @@ class AuthService {
     return Auth.signOut();
   }
   clearData() {
+    this.currentUser = null;
     window.localStorage.removeItem('user');
   }
 }
