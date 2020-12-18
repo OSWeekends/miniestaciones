@@ -9,15 +9,17 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiUdp.h>
 
-
+// You need to include secrets.h with confidential data
 #include "secrets.h"
 
 const String SENSOR_ID = "hermes001";
+const long INTERVAL = 60000; // miliseconds
 
 WiFiUDP ntpUDP;   // UDP client
 NTPClient timeClient(ntpUDP); // NTP client
 
 // #define DONT_HAVE_SENSORS
+#define DEBUG
 
 // Feather ESP8266 note: use pins 3, 4, 5, 12, 13 or 14 --
 // Pin 15 can work but DHT must be disconnected during program upload.
@@ -31,7 +33,7 @@ NTPClient timeClient(ntpUDP); // NTP client
 #define BAUDRATE	115200
 
 struct readings {
-  bool gas;
+  bool gas;           // MQ-5 or similar sensor threshold
   float hum;  				// Humidity in Percent	  ( %)
   float temp;  				// Temperature in Celsius (°C)
 } readings;
@@ -50,9 +52,8 @@ struct readings {
 // as the current DHT reading algorithm adjusts itself to work on faster procs.
 DHT dht(DHTPIN, DHTTYPE);
 
-// will store last time data was sent to Firebase
 unsigned long previousMillis = 0;
-const long INTERVAL = 30000;
+// will store last time data was sent to Firebase
 long unsigned int timestamp = 0;
 
 // Defs.
@@ -75,16 +76,11 @@ void setup() {
 }
 
 void loop() {
-  // check to see if it's time to send data to Firebase; that is, if the difference
-  // between the current time and last time we sent data is bigger than
-  // the interval at which we want to send data.
   unsigned long currentMillis = millis();
 
   if (currentMillis - previousMillis >= INTERVAL) {
-    // save the last time we sent data to Fireabase
     previousMillis = currentMillis;
     readSensors(&readings);
-    displaySensors(readings);
     sendDataToFirebase(readings);
   }
 }
@@ -117,6 +113,7 @@ void connectToWiFi(char const *ssid, char const *password) {
   // get Epoch time
   Serial.print("> NTP Time:");
   Serial.println(timeClient.getFormattedTime());
+  // save the current NTP time
   timestamp = timeClient.getEpochTime();
 
   randomSeed(micros());
@@ -130,7 +127,7 @@ void connectToWiFi(char const *ssid, char const *password) {
 void readSensors(struct readings *r) {
   #ifdef DONT_HAVE_SENSORS
     readings.gas = !readings.gas;
-    readings.temp = random(0, 80);
+    readings.temp = random(0, 50);
     readings.hum = random(0, 80);
   #else
     // Read Gas status
@@ -148,24 +145,15 @@ void readSensors(struct readings *r) {
   #endif
 }
 
-void displaySensors(struct readings r) {
-  if (r.gas == true) {
-    Serial.println("[INFO] Gas DETECTED!!!");
-  }
-  Serial.print("[INFO] Gas status: ");
-  Serial.println(r.gas);
-  Serial.print("[INFO] Humidity: ");
-  Serial.print(r.hum);
-  Serial.println("%");
-  Serial.print("[INFO] Temperature: ");
-  Serial.print(r.temp);
-  Serial.print("°C ");
+void displaySensors(JsonObject& obj) {
+  Serial.print("Data:");
+  obj.printTo(Serial);
   Serial.println();
-  
 }
 
 void sendDataToFirebase(struct readings r) {
   timeClient.update();
+  // Get NTP time data to Fireabase
   timestamp = timeClient.getEpochTime();
   
   const size_t capacity = JSON_OBJECT_SIZE(4);
@@ -177,27 +165,14 @@ void sendDataToFirebase(struct readings r) {
   object1["hum"] = r.hum;
   object1["gas"] = r.gas;
 
-  Serial.print("Data:");
-  object1.printTo(Serial);
-  Serial.println();
-
+  #ifdef DEBUG
+    displaySensors(object1);
+  #endif
+  
   String requestStatusID = Firebase.push(SENSOR_ID, object1);
   if (Firebase.failed()) {
     Serial.println("[ERROR] pushing data failed:");
     Serial.println(Firebase.error());
     return;
   }
-
-  // String humValueID = Firebase.pushFloat(SENSOR_ID + String("/json"), r.temp);
-  // if (Firebase.failed()) {
-  //   Serial.print("[ERROR] pushing /json failed:");
-  //   Serial.println(Firebase.error());
-  //   return;
-  // }
-  // String tempValueID = Firebase.pushFloat(SENSOR_ID + String("/dht11/temperature"), r.temp);
-  // if (Firebase.failed()) {
-  //   Serial.print("[ERROR] pushing /dht11/temperature failed:");
-  //   Serial.println(Firebase.error());
-  //   return;
-  // }
 }

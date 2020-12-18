@@ -2,19 +2,17 @@
   <Panel header="Profile" class="p-shadow-3">
     <Card style="width: 25rem; margin-bottom: 2em">
       <template #header>
-        <img alt="user avatar" :src="user.photoURL" />
+        <img :src="user.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Generic-person.svg/240px-Generic-person.svg.png'" />
       </template>
       <template #title>
-        {{ user.displayName }}
+        {{ user.displayName || user.email }}
       </template>
       <template #content>
         <p>
           name:
-          <strong>{{ user.displayName }}</strong>
+          <strong>{{ user.displayName || 'N/A' }}</strong>
           <br />email:
           <strong>{{ user.email }}</strong>
-          <br />uid:
-          <strong>{{ user.uid }}</strong>
           <br />provider:
           <strong class="teal-text">{{
             user.providerData[0].providerId
@@ -26,7 +24,7 @@
 </template>
 
 <script>
-import { Auth } from '@/firebase';
+import AuthService from '@/services/AuthService';
 export default {
   data() {
     return {
@@ -35,17 +33,14 @@ export default {
         email: '',
         displayName: '',
         photoURL: '',
-        providerData: [{ providerId: '' }],
-      },
+        providerData: [{ providerId: '' }]
+      }
     };
   },
   created() {
-    Auth.onAuthStateChanged(user => {
-      if (user) {
-        this.user = user;
-        console.log(user);
-      }
-    });
-  },
+    if (AuthService.currentUser) {
+      this.user = AuthService.currentUser;
+    }
+  }
 };
 </script>
