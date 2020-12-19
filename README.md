@@ -30,6 +30,8 @@ Mini estaciones DIY para medir diferentes gases y contaminantes presentes en el 
 * https://onlinelibrary.wiley.com/doi/full/10.1034/j.1600-0668.2003.00153.x
 
 ## Proyectos Open Source relacionados
+  - Proyecto inspiracional Firebase IoT (https://github.com/kaizoku-oh/firebase-iot-demo)
+  - ESP8266 +  Firebase (https://github.com/mobizt/Firebase-ESP8266)
   - https://github.com/UlisesGascon/Calidad-del-Aire
   - http://www.instructables.com/id/Air-Pollution-Detector/
   - http://www.instructables.com/id/AtmoScan/
@@ -46,7 +48,17 @@ Aún por definir
 
 ## Tecnologías
 
-* Arduino IDE (C/C++)
-* Node
-* Firebase SDK
+### Hardware
+* PlatformIO IDE - Integrado con VSCode (https://platformio.org/)
+* Arduino IDE (https://www.arduino.cc/en/software)
+* Generar JSON desde C++ (https://github.com/bblanchon/ArduinoJson/)
+* Librerias Firebase para Arduino (https://github.com/FirebaseExtended/firebase-arduino)
+* Librerías para NTP (https://github.com/arduino-libraries/NTPClient)
+
+### Software
+* Firebase SDK (https://firebase.google.com/docs/)
+* Vue3 (https://v3.vuejs.org/)
+* Librería de componentes para Vue3 (https://primefaces.org/primevue/)
+* Librería de gráficos y diagramas integrada con Vue (https://apexcharts.com/)
 * App Web/Android?
+
